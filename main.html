@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from ttgame2.online/TKS091/main.html by HTTrack Website Copier/3.x [XR&CO'2017], Sat, 12 Oct 2024 13:05:23 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOD X PREDICTOR</title>
+    <style>
+        body {
+            background-color: black;
+            color: green;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid green;
+            background-image: url('photos/tks2.jpg');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 15px;
+        }
+
+        #message {
+            font-size: 14px;
+            line-height: 1.2;
+            max-width: 100%;
+            white-space: pre-wrap;
+        }
+
+        #final-message {
+            font-size: 14px;
+            line-height: 1.2;
+            color: red;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+
+        @keyframes blink {
+            0% { border-right: 2px solid green; }
+            50% { border-right: 2px solid transparent; }
+            100% { border-right: 2px solid green; }
+        }
+
+        .typed-text::after {
+            content: '';
+            animation: blink 1s infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="logo"></div>
+    <div id="message" class="typed-text"></div>
+    <div id="final-message" class="typed-text"></div>
+
+    <script>
+        const message = "WELCOME TO MOD X AND RTN TRAIL WEB.";
+
+        let i = 0;
+        const speed = 50; // typing speed in milliseconds
+        const finalMessage = "MAKE BY @TEAM_EARNING_009";
+
+        function typeMessage() {
+            if (i < message.length) {
+                document.getElementById("message").innerHTML += message.charAt(i);
+                i++;
+                setTimeout(typeMessage, speed);
+            } else {
+                setTimeout(() => {
+                    const finalMessageElement = document.getElementById("final-message");
+                    let j = 0;
+                    function typeFinalMessage() {
+                        if (j < finalMessage.length) {
+                            finalMessageElement.innerHTML += finalMessage.charAt(j);
+                            j++;
+                            setTimeout(typeFinalMessage, speed);
+                        } else {
+                            setTimeout(() => {
+                                window.location.href = 'select.html'; // Redirect after the final message is typed
+                            }, 2000); // Slight delay before redirecting
+                        }
+                    }
+                    typeFinalMessage();
+                }, 500); // Slight delay before typing the final message
+            }
+        }
+
+        setTimeout(typeMessage, 500); // Start typing after 0.5 seconds
+
+    </script>
+
+</body>
+
+<!-- Mirrored from ttgame2.online/TKS091/main.html by HTTrack Website Copier/3.x [XR&CO'2017], Sat, 12 Oct 2024 13:05:25 GMT -->
+</html>

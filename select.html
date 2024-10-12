@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from ttgame2.online/TKS091/select.html by HTTrack Website Copier/3.x [XR&CO'2017], Sat, 12 Oct 2024 13:05:25 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOD X PREDICTOR</title>
+    <style>
+       
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            margin: 0; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            
+  
+        }
+
+             video#bg-video {
+             position: fixed;
+             right: 50;
+             bottom: 50;
+             min-width: 100%;
+             min-height: 100%;
+             z-index: -1;
+        }
+            
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+            border: 5px solid rgb(0, 255, 0);
+        }
+
+        .photo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .photo-container img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .photo-container img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Glow effect for each photo */
+        .wingo {
+            box-shadow: 0 0 15px red;
+            border: 5px solid red;
+        }
+
+        .mines {
+            box-shadow: 0 0 15px rgb(255, 0, 221);
+            border: 5px solid rgb(255, 0, 221);
+        }
+
+        .k3 {
+            box-shadow: 0 0 15px rgb(255, 68, 0);
+            border: 5px solid rgb(255, 64, 0);
+        }
+        
+        .aviator {
+
+            box-shadow: 0 0 15px rgb(255, 68, 0);
+
+            border: 5px solid rgb(255, 64, 0);
+        }
+    </style>
+</head>
+<body>
+    <video id="bg-video" autoplay muted loop>
+    <source src="photos/bg.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  
+    <img src="photos/tks.jpg" alt="Sanam Logo" class="logo">
+    <div class="photo-container">
+        <img src="photos/WINGO.jpg" alt="Wingo" class="wingo" onclick="navigateTo('wingo.html')">
+        <img src="photos/k3.jpg" alt="K3" class="k3" onclick="navigateTo('k3.html')">
+        <img src="photos/mines.jpg" alt="Mines" class="mines" onclick="navigateTo('mines.html')">
+        <img src="photos/Aviator.jpg" alt="Aviator" class="aviator" onclick="navigateTo('aviator.html')">
+    </div>
+
+    <script>
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+
+<!-- Mirrored from ttgame2.online/TKS091/select.html by HTTrack Website Copier/3.x [XR&CO'2017], Sat, 12 Oct 2024 13:05:35 GMT -->
+</html>

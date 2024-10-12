@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from ttgame2.online/TKS091/mines.html by HTTrack Website Copier/3.x [XR&CO'2017], Sat, 12 Oct 2024 13:05:37 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TKS PREDICTOR</title>
+    <style>
+       
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+       }
+
+       video#bg-video {
+            position: fixed;
+            right: 50;
+            bottom: 50;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
+        
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: rgb(0, 0, 0);
+            box-shadow: 0 4px 8px rgb(0, 0, 0);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            width: 300px; /* Fixed width */
+            height: 400px; /* Fixed height */
+            border: 5px solid;
+            border-color: red; /* Border color handled by animation */
+            animation: borderAnimation 5s infinite;
+        }
+
+        @keyframes borderAnimation {
+            0% {
+                border-color: red;
+                box-shadow: 0 0 15px red;
+            }
+            50% {
+                border-color: green;
+                box-shadow: 0 0 15px green;
+            }
+            100% {
+                border-color: red;
+                box-shadow: 0 0 15px red;
+            }
+        }
+
+        .bold-text {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #e0f7fa;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 40px); /* Grid size */
+            gap: 5px;
+            margin: 0 auto;
+            justify-content: center;
+        }
+
+        .grid div {
+            width: 40px; /* Box size */
+            height: 40px; /* Box size */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            background: #000; /* Black background */
+            border: 2px solid; /* Border color handled by animation */
+            border-radius: 10px;
+            animation: glowAnimation 1.5s infinite alternate;
+            transition: transform 0.3s;
+            position: relative;
+            color: #ff0000;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        .buttons button#resultButton {
+            background: linear-gradient(135deg, #ff0000, #ff0000); /* Red gradient */
+        }
+
+        .buttons button#resultButton:hover {
+            background: linear-gradient(135deg, #ff0000, #ff0000);
+        }
+
+        .buttons button#resetButton {
+            background: linear-gradient(135deg, #00ff00, #8cff00); /* Green gradient */
+        }
+
+        .buttons button#resetButton:hover {
+            background: linear-gradient(135deg, #8cff00, #00ff00);
+        }
+
+        .result {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff0000;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+   <video id="bg-video" autoplay muted loop>
+
+    <source src="photos/mibg.mp4" type="video/mp4">
+
+    Your browser does not support the video tag.
+  </video>
+  
+    <div class="container">
+        <div class="bold-text">𝚃𝙺𝚂 𝙼𝙸𝙽𝙴𝚂</div>
+        <div class="grid">
+            <!-- 5x5 grid -->
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="buttons">
+            <button id="resultButton">RESULT</button>
+            <button id="resetButton">CLEAR</button>
+        </div>
+        <div id="resultDisplay" class="result"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gridContainer = document.querySelector('.grid');
+            const resultButton = document.getElementById('resultButton');
+            const resetButton = document.getElementById('resetButton');
+            const resultDisplay = document.getElementById('resultDisplay');
+
+            let lastResultClickTime = 0;
+
+            resultButton.addEventListener('click', () => {
+                const now = Date.now();
+                if (now - lastResultClickTime < 10000) {
+                    // If clicked within 10 seconds, show the result again
+                    placeMines();
+                } else {
+                    // First time click or after cooldown
+                    lastResultClickTime = now;
+                    placeMines();
+                }
+            });
+
+            resetButton.addEventListener('click', () => {
+                resetGrid();
+                resultDisplay.innerHTML = ''; // Clear result display
+            });
+
+            function placeMines() {
+                const cells = Array.from(gridContainer.children);
+                const numMines = 5;
+
+                // Clear any previous mines
+                cells.forEach(cell => cell.innerHTML = '');
+
+                // Randomly place mines
+                const mineIndices = new Set();
+                while (mineIndices.size < numMines) {
+                    const randomIndex = Math.floor(Math.random() * cells.length);
+                    mineIndices.add(randomIndex);
+                }
+
+                mineIndices.forEach(index => {
+                    cells[index].innerHTML = '🪙';
+                });
+
+                resultDisplay.innerHTML = ''; // Clear any previous result text
+            }
+
+            function resetGrid() {
+                const cells = Array.from(gridContainer.children);
+                cells.forEach(cell => cell.innerHTML = '');
+            }
+        });
+    </script>
+</body>
+
+<!-- Mirrored from ttgame2.online/TKS091/mines.html by HTTrack Website Copier/3.x [XR&CO'2017], Sat, 12 Oct 2024 13:05:38 GMT -->
+</html>

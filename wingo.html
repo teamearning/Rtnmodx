@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from ttgame2.online/TKS091/wingo.html by HTTrack Website Copier/3.x [XR&CO'2017], Sat, 12 Oct 2024 13:05:35 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOD X WINGO PREDICTOR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 100vh;
+            background-color: #000;
+            color: #0f0;
+            margin: 0;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            margin: 0; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            
+        }
+             video#bg-video {
+             position: fixed;
+             right: 50;
+             bottom: 50;
+             min-width: 100%;
+             min-height: 100%;
+             z-index: -1;
+        }
+            
+        .top-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+         .period-number {
+            text-align: center;
+            padding: 10px;
+            background: rgb(0, 0, 0);
+            box-shadow: 0 4px 8px rgb(0, 0, 0);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            margin: 10px;
+
+            font-size: 1.6em;
+
+            text-align: center;
+            position: relative;
+            width: 350px; /* Fixed width */
+            height: 100px; /* Fixed height */
+            border: 5px solid;
+            border-color: red; /* Border color handled by animation */
+            animation: borderAnimation 5s infinite;
+        }
+
+         .note {
+            text-align: center;
+
+            padding: 20px;
+
+            background: rgb(0, 0, 0);
+            box-shadow: 0 4px 8px rgb(0, 0, 0);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            margin: 10px;
+
+            font-size: 2.5em;
+
+            text-align: center;
+            position: relative;
+            width: 350px; /* Fixed width */
+            height: 40px; /* Fixed height */
+            border: 7px solid;
+            border-color: red; /* Border color handled by animation */
+            animation: borderAnimation 5s infinite;
+        }
+        @keyframes borderAnimation {
+            0% {
+                border-color: red;
+                box-shadow: 0 0 15px red;
+            }
+            50% {
+                border-color: green;
+                box-shadow: 0 0 15px green;
+            }
+            100% {
+                border-color: red;
+                box-shadow: 0 0 15px red;
+            }
+        }
+         .predict-button {
+
+            background-color: transparent;
+
+            border: 2px solid #0f0;
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 1.5em;
+            text-align: center;
+            color: #0f0;
+            transition: all 0.3s ease;
+        }
+        .note {
+            border: none;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .predict-button {
+            background-color: #111;
+            cursor: pointer;
+            font-size: 1.5em;
+            transition: background-color 0.3s ease;
+        }
+        .predict-button:hover {
+            background-color: #333;
+        }
+        .result-popup {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            font-size: 5em;
+            color: #0;
+            display: none;
+            text-align: center;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .animated {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .fade-out {
+            animation: fadeOut 0.5s ease-in-out;
+        }
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+            border: 5px solid rgb(0, 255, 0);
+        
+}
+
+    </style>
+</head>
+<body>
+   <video id="bg-video" autoplay muted loop>
+
+    <source src="photos/winbg.mp4" type="video/mp4">
+
+    Your browser does not support the video tag.
+  </video>
+  <img src="photos/WINGO.jpg" alt="Sanam Logo" class="logo">
+    <div class="top-container">
+      
+        
+        <div id="period-number" class="period-number">PERIOD NUMBER: </div>
+        <div id="note" class="note">TKS WINGO SERVER CONNECTED</div>
+        <button class="predict-button" onclick="handlePrediction()">𝙍𝙀𝙎𝙐𝙇𝙏</button>
+    </div>
+    <div id="result-popup" class="result-popup"></div>
+
+    <script>
+        let lastPeriodNumber = '';
+        let lastPrediction = '';
+        let resultShown = false;
+
+        function updatePeriodNumber() {
+            const now = new Date();
+            const yyyyMMdd = now.toISOString().slice(0, 10).replace(/-/g, '');
+            const currentHours = now.getHours();
+            const currentMinutes = now.getMinutes();
+            const minutesOfDay = 60 * currentHours + currentMinutes + 1;
+            const periodNumber = `${yyyyMMdd}010${minutesOfDay}`;
+            document.getElementById('period-number').textContent = `Period Number: ${periodNumber}`;
+            document.getElementById('period-number').classList.add('animated');
+            setTimeout(() => document.getElementById('period-number').classList.remove('animated'), 500);
+            lastPeriodNumber = periodNumber;
+            resultShown = false; 
+        }
+
+        function handlePrediction() {
+            const currentPeriodNumber = document.getElementById('period-number').textContent.replace('Period Number: ', '');
+            const resultPopup = document.getElementById("result-popup");
+
+            if (currentPeriodNumber !== lastPeriodNumber) {
+                
+                const outcomes = ["BIG", "SMALL"];
+                const randomIndex = Math.floor(Math.random() * outcomes.length);
+                lastPrediction = outcomes[randomIndex];
+                lastPeriodNumber = currentPeriodNumber;
+                resultShown = true; 
+                resultPopup.textContent = lastPrediction;
+            } else {
+                if (resultShown) {
+                    
+                    resultPopup.textContent = "Wait for next period";
+                } else {
+                    
+                    const outcomes = ["BIG", "SMALL"];
+                    const randomIndex = Math.floor(Math.random() * outcomes.length);
+                    lastPrediction = outcomes[randomIndex];
+                    resultShown = true; 
+                    resultPopup.textContent = lastPrediction;
+                }
+            }
+
+            resultPopup.style.display = 'block';
+            resultPopup.classList.add('animated');
+            setTimeout(() => {
+                resultPopup.classList.remove('animated');
+                resultPopup.classList.add('fade-out');
+                setTimeout(() => {
+                    resultPopup.style.display = 'none';
+                    resultPopup.classList.remove('fade-out');
+                }, 500); 
+            }, 5000); 
+        }
+
+        
+        updatePeriodNumber();
+        
+        setInterval(updatePeriodNumber, 60000);
+    </script>
+</body>
+
+<!-- Mirrored from ttgame2.online/TKS091/wingo.html by HTTrack Website Copier/3.x [XR&CO'2017], Sat, 12 Oct 2024 13:05:36 GMT -->
+</html>
